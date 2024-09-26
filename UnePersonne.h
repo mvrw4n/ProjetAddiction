@@ -11,6 +11,7 @@ private:
     double d;
     double q;
     double p;
+    double pref;
     double h;
     double k;
     double b;
@@ -42,4 +43,5 @@ public:
 };
 
 #endif // UNEPERSONNE_H
+
 
