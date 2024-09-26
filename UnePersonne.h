@@ -1,47 +1,34 @@
 #ifndef UNEPERSONNE_H
 #define UNEPERSONNE_H
 
+#include <vector>
+#include <random>
+
 class UnePersonne {
-private:
-    double C0; // je définis tous les paramètres qui vont permettre de caractériser une personne
-    double Smax;
-    double S0;
-    double E0;
-    double lambda0;
-    double d;
-    double q;
-    double p;
-    double pref;
-    double h;
-    double k;
-    double b;
-    double Rmax;
-    double mE;
-    double mLambda;
-    static const int N = 300;//Pour l'instant je fais avec des tableaux de taille fixe donc obligé d'initialiser N
-    double C[N];
-    double S[N];
-    double E[N];
-    double Psi[N];
-    double V[N];
-    double A[N];
-
 public:
-    UnePersonne(); //Constructeur par défault, il va permettre d'initialiser chaque valeur de paramètre 
-    //Pour l'instant je fais que le constructeurs par défault.
-    //on peut mettre les setters après 
-    const double* getC() const; //les getters qui permettent d'accèder aux tableaux qu'on va tracer 
-    const double* getE() const;
-    const double* getPsi() const;
-    const double* getV() const;
-    const double* getA() const;
-    const double* getS() const;
+    UnePersonne();
+    void SolveSystem();
+    const std::vector<double>& getC() const;
+    const std::vector<double>& getS() const;
+    const std::vector<double>& getE() const;
+    const std::vector<double>& getV() const;
+    const std::vector<double>& getA() const;
 
-    void SolveSystem();//Il suffira d'appliquer SolveSystem à la personne et on aura les valeurs des tableaux 
-    //on accèdera à ces tableaux grâce aux getters
+private:
+    void updateValues(int t);
+    void initialize();
 
+    // Paramètres
+    double Co, Sm, So, Eo, d, q, pref, p, h, k, b, Lambda, Rm, mE;
+    int nbrSemaine;
+
+    // Vecteurs pour stocker les résultats
+    std::vector<double> C, S, E, Psi, V, A;
+    std::default_random_engine generator;
+    std::poisson_distribution<int> distribution;
+
+    // Méthode pour générer des valeurs aléatoires selon une loi de Poisson
+    double generatePoisson();
 };
 
 #endif // UNEPERSONNE_H
-
-
